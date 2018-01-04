@@ -23,7 +23,7 @@
 #include "options.h"
 
 
-#define RESOLVE_QUEUE_LENGTH 20
+#define RESOLVE_QUEUE_LENGTH 1000
 
 struct addr_storage {
     int af;                     /* AF_INET or AF_INET6 */
