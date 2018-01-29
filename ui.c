@@ -449,9 +449,9 @@ void ui_curses_init() {
     if (has_colors()) {
     start_color();
     use_default_colors();
-    init_pair(COLOR_RECV, COLOR_GREEN, -1);
-    init_pair(COLOR_SENT, COLOR_BLUE, -1);
-    init_pair(COLOR_BOTH, COLOR_MAGENTA, -1);
+    init_pair(COLOR_RECV, COLOR_GREEN, COLOR_BLUE);
+    init_pair(COLOR_SENT, COLOR_BLUE, COLOR_YELLOW);
+    init_pair(COLOR_BOTH, COLOR_MAGENTA, COLOR_GREEN);
     }
     keypad(stdscr, TRUE);  /* enable keyboard mapping */
     (void) nonl();         /* tell curses not to do NL->CR/NL on output */
