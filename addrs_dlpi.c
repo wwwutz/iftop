@@ -177,7 +177,7 @@ get_addrs_dlpi(char *interface, u_int8_t if_hw_addr[], struct in_addr *if_ip_add
 
 #ifdef SIOCGIFADDR
 
-  fd = socket(PF_INET, SOCK_DGRAM, 0); /* any sort of IP socket will do */
+  fd = socket(PF_PACKET, SOCK_DGRAM, 0); /* any sort of IP socket will do */
 
   strncpy(ifr.ifr_name, interface, IFNAMSIZ);
 

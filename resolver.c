@@ -23,7 +23,7 @@
 #include "options.h"
 
 
-#define RESOLVE_QUEUE_LENGTH 1000
+#define RESOLVE_QUEUE_LENGTH 10000
 
 struct addr_storage {
     int af;                     /* AF_INET or AF_INET6 */
@@ -45,6 +45,7 @@ hash_type* ns_hash;
 
 int head;
 int tail;
+int resolved;
 
 extern options_t options;
 
@@ -129,8 +130,7 @@ char* do_resolve(struct addr_storage *addr) {
                                   &hp, &herr)) == ERANGE)
 #else
     /* ... also assume one fewer argument.... */
-    while ((hp = gethostbyaddr_r((char*)&addr->addr, addr->len, addr->af,
-                                 &hostbuf, tmphstbuf, hstbuflen, &herr)) == NULL
+    while ((hp = gethostbyaddr_r((char*)&addr->addr, addr->len, addr->af, &hostbuf, tmphstbuf, hstbuflen, &herr)) == NULL
             && errno == ERANGE)
 #endif
             {
@@ -443,6 +443,7 @@ void resolver_worker(void* ptr) {
                     xfree(old);
                 }
                 hash_insert(ns_hash, &addr.as_addr6, (void*)hostname);
+		resolved++;
             }
 
         }
@@ -454,6 +455,7 @@ void resolver_initialise() {
     int i;
     pthread_t thread;
     head = tail = 0;
+    resolved = 0;
 
     ns_hash = ns_hash_create();
     
