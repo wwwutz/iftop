@@ -60,6 +60,9 @@
 extern hash_type* history;
 extern int history_pos;
 extern int history_len;
+extern int head;
+extern int tail;
+extern int resolved;
 
 extern options_t options ;
 
@@ -412,6 +415,14 @@ void ui_print() {
     readable_size(peaktotal / RESOLUTION, line, 10, 1024, options.bandwidth_unit);
     mvaddstr(y+2, 39, line);
 
+    mvaddstr(y, 50, "resolved:");
+    sprintf(line,"%d",resolved);
+    mvaddstr(y, 61, line);
+
+    mvaddstr(y+1, 50, "queue h/t:");
+    sprintf(line,"%d-%d",head,tail);
+    mvaddstr(y+1, 61, line);
+
     mvaddstr(y, COLS - 8 * HISTORY_DIVISIONS - 8, "rates:");
 
     draw_totals(&totals);
@@ -424,7 +435,7 @@ void ui_print() {
       mvchgat(0, 0, strlen(helpmsg) + 2, A_REVERSE, 0, NULL);
     }
     move(LINES - 1, COLS - 1);
-    
+
     refresh();
 
     /* Bar chart auto scale */
